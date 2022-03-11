@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TransactionAccount</string>
+    <string name="account_title">Available</string>
+    <string name="amount">amount</string>
 </resources>
