@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/transactionAccountFragment">
+
+    <fragment
+        android:id="@+id/transactionAccountFragment"
+        android:name="com.cba.transactionaccount.ui.TransactionAccountFragment"
+        android:label="@string/app_name" />
+
+</navigation>
