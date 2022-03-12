@@ -2,56 +2,84 @@ package com.cba.transactionaccount.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.cba.transactionaccount.R
+import com.cba.transactionaccount.databinding.TransactionListDateHeaderItemBinding
+import com.cba.transactionaccount.databinding.TransactionListViewItemBinding
+import com.cba.transactionaccount.model.AdapterData
+import com.cba.transactionaccount.model.TransactionHistory
 
-class TransactionAccountCustomAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TransactionAccountCustomAdapter : ListAdapter<AdapterData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+    companion object {
+        private val TYPE_DATE_HEADER = 0
+        private val TYPE_ITEM = 1
 
-    private val TYPE_HEADER = 0
-    private val TYPE_DATE_HEADER = 1
-    private val TYPE_ITEM = 2
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AdapterData>() {
+            override fun areItemsTheSame(oldItem: AdapterData, newItem: AdapterData): Boolean =
+                oldItem == newItem
+
+            override fun areContentsTheSame(oldItem: AdapterData, newItem: AdapterData): Boolean =
+                oldItem == newItem
+        }
+    }
+
+    /*
+     val binding = HoursListItemsBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return HoursViewHolder(binding)
+     */
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_HEADER -> {
-                val headerView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.transaction_list_header_item, parent, false)
-                TransactionAccountHeaderViewHolder(headerView)
-            }
             TYPE_DATE_HEADER -> {
-                val headerView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.transaction_list_date_header_item, parent, false)
-                TransactionAccountDateHeaderViewHolder(headerView)
+                val binding = TransactionListDateHeaderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TransactionAccountDateHeaderViewHolder(binding)
             }
             TYPE_ITEM -> {
-                val itemView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.transaction_list_view_item, parent, false)
-                TransactionAccountItemViewHolder(itemView)
+                val binding = TransactionListViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TransactionAccountItemViewHolder(binding)
             }
             else -> {
                 throw IllegalArgumentException("View Holder Type Unknown")
             }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position).type
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is TransactionAccountHeaderViewHolder -> {
-                holder.bind(getItemId(position))
+        when (getItemViewType(position)) {
+            TYPE_DATE_HEADER -> {
+                (holder as TransactionAccountDateHeaderViewHolder).setHeaderText(getItem(position).data as String)
             }
-            is TransactionAccountDateHeaderViewHolder -> {
-                holder.bind(getItemId(position))
-            }
-            is TransactionAccountItemViewHolder -> {
-                holder.bind(getItemId(position))
+            TYPE_ITEM -> {
+                (holder as TransactionAccountItemViewHolder).setTransactionData(getItem(position).data as TransactionHistory)
             }
             else -> {
-                throw IllegalArgumentException("View Holder Type Unknown")
+               // Show placeholder view and hide original view
             }
         }
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+    override fun getItemCount() = currentList.size
+
+    fun setAdapterData(item : List<TransactionHistory>) {
+         submitList(groupData(item))
     }
+
+    private fun groupData(item: List<TransactionHistory>): ArrayList<AdapterData> {
+        val list = ArrayList<AdapterData>()
+        item.forEach {
+            if (!list.contains(AdapterData(it.effectiveDate, TYPE_DATE_HEADER))) {
+                list.add(AdapterData(it.effectiveDate, TYPE_DATE_HEADER))
+            }
+            list.add(AdapterData(it, TYPE_ITEM))
+        }
+        return list
+    }
+
+
 }

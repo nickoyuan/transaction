@@ -13,6 +13,7 @@
         tools:src="@drawable/ic_launcher_background" />
 
     <TextView
+        android:id="@+id/transaction_account_description"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"

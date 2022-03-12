@@ -1,10 +1,11 @@
 package com.cba.transactionaccount.ui
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.cba.transactionaccount.databinding.TransactionListDateHeaderItemBinding
 
-class TransactionAccountDateHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun bind(itemId: Long) {
-        TODO("Not yet implemented")
+class TransactionAccountDateHeaderViewHolder(private val binding: TransactionListDateHeaderItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    fun setHeaderText(text: String) {
+        binding.transactionDatetimeTxt.text = text
     }
 }
