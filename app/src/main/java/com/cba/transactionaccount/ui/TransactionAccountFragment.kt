@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cba.transactionaccount.databinding.TransactionListFragmentBinding
 import com.cba.transactionaccount.model.TransactionHistory
+import com.cba.transactionaccount.model.TransactionViewState.State.SUCCESS
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,35 +36,16 @@ class TransactionAccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpTransactionAccountAdapter(binding.transactionAccountRecyclerView)
 
+        transactionAccountViewModel.screenState.observe(viewLifecycleOwner, Observer {
+           when(it.state) {
+               SUCCESS -> {
+                   submitTransactionHistory(it.data!!)
+               }
+               else -> {}
+           }
+        })
 
-        // Testing
-        var taet = listOf(TransactionHistory(
-            true,
-            "adslfjals",
-            "shopping",
-            "231"
-        ),
-            TransactionHistory(
-                true,
-                "asfe",
-                "shopping",
-                "231"
-            ),
-            TransactionHistory(
-                true,
-                "fasgsab",
-                "shopping",
-                "231"
-            ),
-            TransactionHistory(
-                true,
-                "adslfjals",
-                "shopping",
-                "1124"
-            )
-        )
-
-        submitTransactionHistory(taet)
+        transactionAccountViewModel.loadTransactions()
     }
 
     private fun submitTransactionHistory(accountHistory : List<TransactionHistory>) {
