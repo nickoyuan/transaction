@@ -1,10 +1,11 @@
 package com.cba.transactionaccount.ui
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.cba.transactionaccount.databinding.TransactionListViewItemBinding
+import com.cba.transactionaccount.model.TransactionHistory
 
-class TransactionAccountItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun bind(itemId: Long) {
-        TODO("Not yet implemented")
+class TransactionAccountItemViewHolder(private val binding: TransactionListViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun setTransactionData(data: TransactionHistory) {
+        binding.transactionAccountDescription.text = data.description
     }
 }
