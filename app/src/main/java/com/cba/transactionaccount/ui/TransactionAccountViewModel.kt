@@ -2,16 +2,17 @@ package com.cba.transactionaccount.ui
 
 import androidx.lifecycle.viewModelScope
 import com.cba.transactionaccount.model.TransactionHistory
+import com.cba.transactionaccount.network.TransactionAccountRepo
 import com.cba.transactionaccount.ui.TransactionViewEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
-class TransactionAccountViewModel @Inject constructor() :
+class TransactionAccountViewModel @Inject constructor(private val transactionAccountRepo: TransactionAccountRepo) :
     ViewModelUDF<TransactionViewState, TransactionViewEvent>() {
 
     override val initialState: TransactionViewState
@@ -42,49 +43,23 @@ class TransactionAccountViewModel @Inject constructor() :
 
     private fun loadTransactions() {
         viewModelScope.launch {
-            var taet = listOf(
-                TransactionHistory(
-                    true,
-                    "adslfjals",
-                    "shopping",
-                    "231"
-                ),
-                TransactionHistory(
-                    true,
-                    "asfe",
-                    "shopping",
-                    "231"
-                ),
-                TransactionHistory(
-                    true,
-                    "fasgsab",
-                    "shopping",
-                    "231"
-                ),
-                TransactionHistory(
-                    true,
-                    "adslfjals",
-                    "shopping",
-                    "1124"
-                )
-            )
-            withContext(SINGLE_THREAD) {
-                emitEvent(EventSuccess(taet))
+            withContext(Dispatchers.IO) {
+                emitEvent(EventLoading)
+                try {
+                    var transaction = transactionAccountRepo.getTransactionData()
+                    emitEvent(EventSuccess(transaction.transactions))
+                } catch (e: Exception) {
+                    emitEvent(EventError(e.message))
+                }
             }
         }
     }
-
-    companion object {
-        private val SINGLE_THREAD = newSingleThreadContext("transaction_thread")
-    }
-
 }
 
 sealed class TransactionViewEvent {
     object EventLoading : TransactionViewEvent()
     object EventFetch : TransactionViewEvent()
-    object EventClose : TransactionViewEvent()
-    class EventError(val errorMessage: String) : TransactionViewEvent()
+    class EventError(val errorMessage: String?) : TransactionViewEvent()
     class EventSuccess(val data: List<TransactionHistory>) : TransactionViewEvent()
 }
 
