@@ -1,11 +1,8 @@
 package com.cba.transactionaccount.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cba.transactionaccount.model.TransactionHistory
-import com.cba.transactionaccount.model.TransactionViewState
+import com.cba.transactionaccount.ui.TransactionViewEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
@@ -14,19 +11,44 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class TransactionAccountViewModel @Inject constructor() : ViewModel() {
+class TransactionAccountViewModel @Inject constructor() :
+    ViewModelUDF<TransactionViewState, TransactionViewEvent>() {
 
-    val screenState: LiveData<TransactionViewState<List<TransactionHistory>>> get() = _screenState
-    private val _screenState = MutableLiveData<TransactionViewState<List<TransactionHistory>>>(TransactionViewState.idle())
+    override val initialState: TransactionViewState
+        get() = TransactionViewState.Empty
 
-    fun loadTransactions() {
+    override fun handleStateUpdate(
+        viewEvent: TransactionViewEvent,
+        oldState: TransactionViewState
+    ): TransactionViewState {
+        return when (viewEvent) {
+            is EventLoading -> TransactionViewState.Loading
+            is EventFetch -> TransactionViewState.Fetch
+            is EventSuccess -> TransactionViewState.Successful(viewEvent.data)
+            else -> oldState
+        }
+    }
+
+    override fun handleSideEffects(
+        viewEvent: TransactionViewEvent,
+        oldState: TransactionViewState,
+        newState: TransactionViewState
+    ) {
+        when (viewEvent) {
+            is EventFetch -> loadTransactions()
+            else -> {}
+        }
+    }
+
+    private fun loadTransactions() {
         viewModelScope.launch {
-            var taet = listOf(TransactionHistory(
-                true,
-                "adslfjals",
-                "shopping",
-                "231"
-            ),
+            var taet = listOf(
+                TransactionHistory(
+                    true,
+                    "adslfjals",
+                    "shopping",
+                    "231"
+                ),
                 TransactionHistory(
                     true,
                     "asfe",
@@ -47,7 +69,7 @@ class TransactionAccountViewModel @Inject constructor() : ViewModel() {
                 )
             )
             withContext(SINGLE_THREAD) {
-                _screenState.postValue(TransactionViewState.success(taet))
+                emitEvent(EventSuccess(taet))
             }
         }
     }
@@ -58,6 +80,18 @@ class TransactionAccountViewModel @Inject constructor() : ViewModel() {
 
 }
 
-data class PostTransactionListState(
-    val transactionList: List<TransactionHistory> = emptyList()
-)
+sealed class TransactionViewEvent {
+    object EventLoading : TransactionViewEvent()
+    object EventFetch : TransactionViewEvent()
+    object EventClose : TransactionViewEvent()
+    class EventError(val errorMessage: String) : TransactionViewEvent()
+    class EventSuccess(val data: List<TransactionHistory>) : TransactionViewEvent()
+}
+
+sealed class TransactionViewState {
+    object Empty : TransactionViewState()
+    object Loading : TransactionViewState()
+    object Fetch : TransactionViewState()
+    class Successful(val data: List<TransactionHistory>) : TransactionViewState()
+    class Error(val message: String) : TransactionViewState()
+}
