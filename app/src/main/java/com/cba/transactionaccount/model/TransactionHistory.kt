@@ -1,17 +1,16 @@
 package com.cba.transactionaccount.model
 
+import com.google.gson.annotations.SerializedName
+
 data class TransactionHistory(
+    @SerializedName("amount")
+    val amount : String,
+    @SerializedName("isPending")
     val isPending: Boolean,
+    @SerializedName("description")
     val description: String,
+    @SerializedName("category")
     val category: String,
+    @SerializedName("effectiveDate")
     val effectiveDate: String
 )
-
-/*
-			"amount" : "-20.15",
-			"id" : "90F0A3BA-30C9-40E5-8BF8-532FE0D9BD3D",
-			"isPending" : true,
-			"description" : "Woolworths 1100 Redfern",
-			"category" : "groceries",
-			"effectiveDate" : "2021-02-27"
- */
