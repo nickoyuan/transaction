@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -12,12 +13,15 @@
         android:id="@+id/transaction_datetime_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/cba.dateTitle"
         tools:text="SUN 28 FEB" />
 
     <TextView
+        android:id="@+id/transaction_day_text"
         android:layout_marginStart="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="5 days ago" />
+        tools:text="5 days ago"
+        android:textAppearance="@style/cba.dayDateTitle" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

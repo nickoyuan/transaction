@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="cba.HeadingTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="cba.SubtitleTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="cba.amountTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:color">#FF231F20</item>
+    </style>
+
+     <style name="cba.amountSubtitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="cba.dateTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:color">#FF231F20</item>
+    </style>
+
+    <style name="cba.dayDateTitle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>
