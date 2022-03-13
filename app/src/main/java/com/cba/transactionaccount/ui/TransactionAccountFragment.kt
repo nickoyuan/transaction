@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cba.transactionaccount.databinding.TransactionListFragmentBinding
+import com.cba.transactionaccount.model.AccountData
 import com.cba.transactionaccount.model.TransactionHistory
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +39,7 @@ class TransactionAccountFragment : Fragment() {
         transactionAccountViewModel.uiState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is TransactionViewState.Successful -> {
+                    populateAccount(it.account)
                     submitTransactionHistory(it.data)
                 }
                 else -> {}
@@ -45,6 +47,12 @@ class TransactionAccountFragment : Fragment() {
         })
 
         transactionAccountViewModel.emitEvent(TransactionViewEvent.EventFetch)
+    }
+
+    private fun populateAccount(account : AccountData) {
+        binding.bsbTxt.text = account.bsb
+        binding.accountNoTxt.text = account.accountNumber
+        binding.accountAvailableTxt.text = account.available
     }
 
     private fun submitTransactionHistory(accountHistory: List<TransactionHistory>) {
