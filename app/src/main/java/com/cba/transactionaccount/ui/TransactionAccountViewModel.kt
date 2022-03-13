@@ -44,7 +44,6 @@ class TransactionAccountViewModel @Inject constructor(private val transactionAcc
 
     private fun loadTransactions() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
                 emitEvent(EventLoading)
                 try {
                     val transaction = transactionAccountRepo.getTransactionData()
@@ -52,7 +51,6 @@ class TransactionAccountViewModel @Inject constructor(private val transactionAcc
                 } catch (e: Exception) {
                     emitEvent(EventError(e.message))
                 }
-            }
         }
     }
 }
