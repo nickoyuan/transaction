@@ -1,10 +1,13 @@
 package com.cba.transactionaccount.di
 
 import com.cba.transactionaccount.network.TransactionAccountProvider
+import com.cba.transactionaccount.util.LocalDateAdapter
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.joda.time.LocalDate
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -21,8 +24,11 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideConverterFactory(): GsonConverterFactory =
-        GsonConverterFactory.create()
+    fun provideConverterFactory(): GsonConverterFactory {
+        val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateAdapter()).create()
+        return GsonConverterFactory.create(gson)
+    }
+
 
     @Singleton
     @Provides

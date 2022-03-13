@@ -4,4 +4,6 @@
     <string name="amount">amount</string>
     <string name="bsb">bsb</string>
     <string name="account">Account</string>
+    <string name="balance">Balance %s</string>
+    <string name="pending">Pending %s</string>
 </resources>

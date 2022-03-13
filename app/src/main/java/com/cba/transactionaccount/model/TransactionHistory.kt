@@ -1,6 +1,7 @@
 package com.cba.transactionaccount.model
 
 import com.google.gson.annotations.SerializedName
+import org.joda.time.LocalDate
 
 data class TransactionHistory(
     @SerializedName("amount")
@@ -12,5 +13,5 @@ data class TransactionHistory(
     @SerializedName("category")
     val category: String,
     @SerializedName("effectiveDate")
-    val effectiveDate: String
+    val effectiveDate: LocalDate
 )

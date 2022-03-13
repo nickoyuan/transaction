@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cba.transactionaccount.R
 import com.cba.transactionaccount.databinding.TransactionListFragmentBinding
 import com.cba.transactionaccount.model.AccountData
 import com.cba.transactionaccount.model.TransactionHistory
@@ -53,6 +54,10 @@ class TransactionAccountFragment : Fragment() {
         binding.bsbTxt.text = account.bsb
         binding.accountNoTxt.text = account.accountNumber
         binding.accountAvailableTxt.text = account.available
+        binding.balanceText.text =  getString(
+            R.string.balance,
+            account.balance
+        )
     }
 
     private fun submitTransactionHistory(accountHistory: List<TransactionHistory>) {

@@ -68,6 +68,12 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
+    implementation "net.danlew:android.joda:2.10.9"
+    //noinspection GradleDependency
+    testImplementation 'joda-time:joda-time:2.10.9'
+    //noinspection GradleDependency
+    androidTestImplementation 'joda-time:joda-time:2.10.9'
+
     //  Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:2.4.1")
 

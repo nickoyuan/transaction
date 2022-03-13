@@ -9,6 +9,7 @@ import com.cba.transactionaccount.databinding.TransactionListDateHeaderItemBindi
 import com.cba.transactionaccount.databinding.TransactionListViewItemBinding
 import com.cba.transactionaccount.model.AdapterData
 import com.cba.transactionaccount.model.TransactionHistory
+import org.joda.time.LocalDate
 
 class TransactionAccountCustomAdapter : ListAdapter<AdapterData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
@@ -23,12 +24,6 @@ class TransactionAccountCustomAdapter : ListAdapter<AdapterData, RecyclerView.Vi
                 oldItem == newItem
         }
     }
-
-    /*
-     val binding = HoursListItemsBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-        return HoursViewHolder(binding)
-     */
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -53,7 +48,7 @@ class TransactionAccountCustomAdapter : ListAdapter<AdapterData, RecyclerView.Vi
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             TYPE_DATE_HEADER -> {
-                (holder as TransactionAccountDateHeaderViewHolder).setHeaderText(getItem(position).data as String)
+                (holder as TransactionAccountDateHeaderViewHolder).setHeaderText(getItem(position).data as LocalDate)
             }
             TYPE_ITEM -> {
                 (holder as TransactionAccountItemViewHolder).setTransactionData(getItem(position).data as TransactionHistory)
