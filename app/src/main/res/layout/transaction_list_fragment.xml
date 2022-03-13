@@ -14,7 +14,6 @@
         android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/transaction_balance"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -31,11 +30,13 @@
                 tools:text="$226.76" />
 
             <TextView
+                android:id="@+id/balance_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Balance %s" />
 
             <TextView
+                android:id="@+id/pending_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Pending %s" />
