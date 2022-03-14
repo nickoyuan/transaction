@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TransactionAccount</string>
+    <string name="transaction_history_toolbar">Complete Access</string>
+    <string name="transaction_info">Transaction info</string>
     <string name="account_title">Available</string>
     <string name="amount">amount</string>
     <string name="bsb">bsb</string>

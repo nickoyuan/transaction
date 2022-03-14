@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:orientation="horizontal">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
     <ImageView
         android:layout_width="20dp"
@@ -32,6 +40,6 @@
         android:layout_marginEnd="10dp"
         android:textAppearance="@style/cba.amountSubtitle"
         tools:text="-$14.19" />
+    </LinearLayout>
 
-</LinearLayout>
-
+</androidx.cardview.widget.CardView>

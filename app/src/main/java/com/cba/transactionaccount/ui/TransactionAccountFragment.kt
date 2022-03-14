@@ -40,14 +40,30 @@ class TransactionAccountFragment : Fragment() {
         transactionAccountViewModel.uiState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is TransactionViewState.Successful -> {
+                    hideLoadingScreen()
                     populateAccount(it.account)
                     submitTransactionHistory(it.data)
+                }
+                is TransactionViewState.Loading -> {
+                    showLoadingScreen()
                 }
                 else -> {}
             }
         })
 
+        binding.transactionSwipeToRefresh.setOnRefreshListener {
+            transactionAccountViewModel.emitEvent(TransactionViewEvent.EventFetch)
+        }
+
         transactionAccountViewModel.emitEvent(TransactionViewEvent.EventFetch)
+    }
+
+    private fun hideLoadingScreen() {
+        binding.transactionSwipeToRefresh.isRefreshing = false
+    }
+
+    private fun showLoadingScreen() {
+        binding.transactionSwipeToRefresh.isRefreshing = true
     }
 
     private fun populateAccount(account : AccountData) {
@@ -65,11 +81,15 @@ class TransactionAccountFragment : Fragment() {
     }
 
     private fun setUpTransactionAccountAdapter(transactionAccountRecyclerView: RecyclerView) {
-        transactionAccountAdapter = TransactionAccountCustomAdapter()
+        transactionAccountAdapter = TransactionAccountCustomAdapter(::transactionHisotryItemClickListener)
         with(transactionAccountRecyclerView) {
             adapter = transactionAccountAdapter
             layoutManager = LinearLayoutManager(context)
             itemAnimator = DefaultItemAnimator()
         }
+    }
+
+    private fun transactionHisotryItemClickListener(transactionHistory: TransactionHistory) {
+        //findNavController().navigate()
     }
 }

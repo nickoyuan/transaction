@@ -13,4 +13,10 @@ class TransactionAccountItemViewHolder(private val binding: TransactionListViewI
         }
         binding.transactionAccountAmount.text = data.amount
     }
+
+    fun setOnClickListener(onClickListener: (transactionHistory : TransactionHistory) -> Unit, transactionHistory: TransactionHistory) {
+        binding.root.setOnClickListener {
+            onClickListener.invoke(transactionHistory)
+        }
+    }
 }
