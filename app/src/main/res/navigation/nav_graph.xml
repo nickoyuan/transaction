@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph.xml"
+    android:id="@+id/transaction_nav_graph"
     app:startDestination="@id/transactionAccountFragment">
 
     <fragment
@@ -10,12 +10,22 @@
         android:label="@string/transaction_history_toolbar" >
         <action
             android:id="@+id/action_transactionAccountFragment_to_transactionAccountInfo"
-            app:destination="@id/transactionAccountInfo" />
+            app:destination="@id/transactionAccountInfo"
+            />
     </fragment>
 
     <fragment
         android:id="@+id/transactionAccountInfo"
         android:name="com.cba.transactionaccount.ui.TransactionAccountInfo"
-        android:label="@string/transaction_info" />
+        android:label="@string/transaction_info" >
+
+        <argument
+            android:name="transactionInfoArgs"
+            app:argType="com.cba.transactionaccount.model.TransactionHistory" />
+    </fragment>
 
 </navigation>
+
+<!--    app:launchSingleTop="true"-->
+<!--    app:popUpTo="@id/transaction_nav_graph"-->
+<!--    app:popUpToInclusive="true"-->
