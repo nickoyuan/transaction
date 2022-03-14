@@ -70,11 +70,21 @@ class TransactionAccountCustomAdapter(
 
     private fun groupData(item: List<TransactionHistory>): ArrayList<AdapterData> {
         val list = ArrayList<AdapterData>()
+        val nonPending = ArrayList<AdapterData>()
         item.forEach {
             if (!list.contains(AdapterData(it.effectiveDate, TYPE_DATE_HEADER))) {
+                list.addAll(nonPending)
                 list.add(AdapterData(it.effectiveDate, TYPE_DATE_HEADER))
+                nonPending.clear()
             }
-            list.add(AdapterData(it, TYPE_ITEM))
+            if(it.isPending) {
+                list.add(AdapterData(it, TYPE_ITEM))
+            } else {
+                nonPending.add(AdapterData(it, TYPE_ITEM))
+            }
+        }
+        if(nonPending.isNotEmpty()) {
+            list.addAll(nonPending)
         }
         return list
     }
