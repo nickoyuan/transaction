@@ -7,12 +7,6 @@ import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-/**
- *
- * Why the above TestRule?
- * During the unit-test, it enables the main dispatcher to use TestCoroutineDispatcher.
- * After the test, it resets and cleanup.
- */
 @ExperimentalCoroutinesApi
 class TestCoroutineRule : TestRule {
 
