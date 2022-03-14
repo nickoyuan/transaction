@@ -1,6 +1,7 @@
 package com.cba.transactionaccount.ui
 
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class TransactionAccountInfo : Fragment() {
+class TransactionAccountInfo : Fragment(), TextToSpeech.OnInitListener {
 
     private lateinit var binding: TransactionAccountInfoFragmentBinding
     val args: TransactionAccountInfoArgs by navArgs()
+    private lateinit var textToSpeech: TextToSpeech
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,13 +35,15 @@ class TransactionAccountInfo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        textToSpeech = TextToSpeech(context, this)
         val category = Category.values().find { it.name == args.transactionInfoArgs.category }
             ?: Category.uncategorised
         binding.accountCategoryIcon.setImageResource(category.getValue())
         binding.accountCategoryDesc.text = args.transactionInfoArgs.category
         binding.accountAmount.text = args.transactionInfoArgs.amount.toCurrencyString()
-        if(args.transactionInfoArgs.isPending) {
-            binding.accountDescription.text = "PENDING: ${args.transactionInfoArgs.description.toHtml()}"
+        if (args.transactionInfoArgs.isPending) {
+            binding.accountDescription.text =
+                "PENDING: ${args.transactionInfoArgs.description.toHtml()}"
         } else {
             binding.accountDescription.text = args.transactionInfoArgs.description.toHtml()
         }
@@ -47,6 +51,29 @@ class TransactionAccountInfo : Fragment() {
 
         binding.fragmentTransactionInfoToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        textToSpeech.let {
+            it.stop()
+            it.shutdown()
+        }
+    }
+
+    override fun onInit(status: Int) {
+        binding.hearingAidIcon.setOnClickListener {
+            textToSpeech?.let {
+                it.speak(
+                    "Category of ${args.transactionInfoArgs.category} with Transaction amount " +
+                            "of ${args.transactionInfoArgs.amount} with the" +
+                            " Description ${args.transactionInfoArgs.description}" +
+                            " on ${args.transactionInfoArgs.effectiveDate}",
+                    TextToSpeech.QUEUE_FLUSH,
+                    null
+                )
+            }
         }
     }
 }

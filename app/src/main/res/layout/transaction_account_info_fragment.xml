@@ -77,4 +77,13 @@
         app:layout_constraintTop_toBottomOf="@+id/account_description"
         tools:text="Thu 10 March 2022" />
 
+    <ImageView
+        android:id="@+id/hearing_aid_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_time"
+        android:src="@drawable/hearing_aid_foreground" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
