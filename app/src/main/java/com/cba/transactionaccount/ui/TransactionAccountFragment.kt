@@ -37,7 +37,6 @@ class TransactionAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpTransactionAccountAdapter(binding.transactionAccountRecyclerView)
-
         transactionAccountViewModel.uiState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is TransactionViewState.Successful -> {
