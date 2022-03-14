@@ -15,6 +15,7 @@ import com.cba.transactionaccount.R
 import com.cba.transactionaccount.databinding.TransactionListFragmentBinding
 import com.cba.transactionaccount.model.AccountData
 import com.cba.transactionaccount.model.TransactionHistory
+import com.cba.transactionaccount.util.toCurrencyString
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -69,10 +70,10 @@ class TransactionAccountFragment : Fragment() {
     private fun populateAccount(account : AccountData) {
         binding.bsbTxt.text = account.bsb
         binding.accountNoTxt.text = account.accountNumber
-        binding.accountAvailableTxt.text = account.available
+        binding.accountAvailableTxt.text = account.available.toCurrencyString()
         binding.balanceText.text =  getString(
             R.string.balance,
-            account.balance
+            account.balance.toCurrencyString()
         )
     }
 
