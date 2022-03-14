@@ -45,7 +45,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/account_title"
                     android:textAppearance="@style/cba.HeadingTitle" />
 
@@ -53,7 +54,8 @@
                     android:id="@+id/account_available_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/dash"
                     android:textAppearance="@style/cba.amountTitle" />
 
@@ -61,14 +63,16 @@
                     android:id="@+id/balance_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/balanceDummyText" />
 
                 <TextView
                     android:id="@+id/pending_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/pendingDummyText" />
 
                 <View
@@ -89,8 +93,10 @@
                     app:layout_constraintTop_toBottomOf="@+id/transaction_balance">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
                         android:text="@string/bsb"
                         android:textAppearance="@style/cba.HeadingTitle" />
 
@@ -98,22 +104,23 @@
                         android:id="@+id/bsb_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
                         android:text="@string/dash" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/account"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"                        android:text="@string/account"
                         android:textAppearance="@style/cba.HeadingTitle" />
 
                     <TextView
                         android:id="@+id/account_no_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/dash" />
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"                        android:text="@string/dash" />
                 </LinearLayout>
 
                 <View

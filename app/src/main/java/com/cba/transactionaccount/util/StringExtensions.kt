@@ -1,5 +1,7 @@
 package com.cba.transactionaccount.util
 
+import android.text.Spanned
+import androidx.core.text.HtmlCompat
 import com.cba.transactionaccount.util.DateTimeExtensions.DATE_FORMAT_WITH_DAY
 import com.cba.transactionaccount.util.DateTimeExtensions.DATE_LOCALE
 import org.joda.time.LocalDate
@@ -16,4 +18,8 @@ fun LocalDate.dateToString() : String = toString(DATE_FORMAT_WITH_DAY, DATE_LOCA
 
 fun String.toCurrencyString() : String {
    return NumberFormat.getCurrencyInstance().format(BigDecimal(this))
+}
+
+fun String.toHtml() : Spanned {
+    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }

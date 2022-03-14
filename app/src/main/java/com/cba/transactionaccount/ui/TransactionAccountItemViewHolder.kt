@@ -5,13 +5,14 @@ import com.cba.transactionaccount.databinding.TransactionListViewItemBinding
 import com.cba.transactionaccount.model.Category
 import com.cba.transactionaccount.model.TransactionHistory
 import com.cba.transactionaccount.util.toCurrencyString
+import com.cba.transactionaccount.util.toHtml
 
 class TransactionAccountItemViewHolder(private val binding: TransactionListViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
     fun setTransactionData(data: TransactionHistory) {
         if(data.isPending) {
-            binding.transactionAccountDescription.text =  "PENDING ${data.description}"
+            binding.transactionAccountDescription.text =  "PENDING ${data.description.toHtml()}"
         } else {
-            binding.transactionAccountDescription.text = data.description
+            binding.transactionAccountDescription.text = data.description.toHtml()
         }
         binding.transactionAccountAmount.text = data.amount.toCurrencyString()
 
