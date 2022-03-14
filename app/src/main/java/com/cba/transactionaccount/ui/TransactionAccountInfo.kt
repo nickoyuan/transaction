@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.cba.transactionaccount.databinding.TransactionAccountInfoFragmentBinding
 import com.cba.transactionaccount.model.Category
 import com.cba.transactionaccount.util.dateToString
-import dagger.hilt.android.AndroidEntryPoint
-import androidx.navigation.fragment.findNavController
 import com.cba.transactionaccount.util.toCurrencyString
+import com.cba.transactionaccount.util.toHtml
+import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
@@ -38,9 +39,9 @@ class TransactionAccountInfo : Fragment() {
         binding.accountCategoryDesc.text = args.transactionInfoArgs.category
         binding.accountAmount.text = args.transactionInfoArgs.amount.toCurrencyString()
         if(args.transactionInfoArgs.isPending) {
-            binding.accountDescription.text = "PENDING: ${args.transactionInfoArgs.description}"
+            binding.accountDescription.text = "PENDING: ${args.transactionInfoArgs.description.toHtml()}"
         } else {
-            binding.accountDescription.text = args.transactionInfoArgs.description
+            binding.accountDescription.text = args.transactionInfoArgs.description.toHtml()
         }
         binding.accountTime.text = args.transactionInfoArgs.effectiveDate.dateToString()
 

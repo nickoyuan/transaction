@@ -21,6 +21,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_weight="0.4"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:src="@drawable/ic_icon_category_uncategorised"/>
 
@@ -28,7 +29,7 @@
         android:gravity="start|center"
         android:id="@+id/transaction_account_description"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="2"
         tools:text="PENDING: setapp (via Paddle.NET) +440808178853GBR" />
@@ -40,7 +41,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_weight="1"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="5dp"
         android:textAppearance="@style/cba.amountSubtitle"
         tools:text="-$14.19" />
     </LinearLayout>
