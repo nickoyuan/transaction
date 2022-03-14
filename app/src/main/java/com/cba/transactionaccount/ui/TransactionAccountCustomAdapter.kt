@@ -11,7 +11,9 @@ import com.cba.transactionaccount.model.AdapterData
 import com.cba.transactionaccount.model.TransactionHistory
 import org.joda.time.LocalDate
 
-class TransactionAccountCustomAdapter : ListAdapter<AdapterData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class TransactionAccountCustomAdapter(
+    private val onClickListener: (transactionHistory : TransactionHistory) -> Unit
+) : ListAdapter<AdapterData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val TYPE_DATE_HEADER = 0
         private val TYPE_ITEM = 1
@@ -52,6 +54,7 @@ class TransactionAccountCustomAdapter : ListAdapter<AdapterData, RecyclerView.Vi
             }
             TYPE_ITEM -> {
                 (holder as TransactionAccountItemViewHolder).setTransactionData(getItem(position).data as TransactionHistory)
+                holder.setOnClickListener(onClickListener, getItem(position).data as TransactionHistory)
             }
             else -> {
                // Show placeholder view and hide original view

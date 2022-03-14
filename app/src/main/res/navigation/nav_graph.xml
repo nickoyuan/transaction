@@ -7,6 +7,15 @@
     <fragment
         android:id="@+id/transactionAccountFragment"
         android:name="com.cba.transactionaccount.ui.TransactionAccountFragment"
-        android:label="@string/app_name" />
+        android:label="@string/transaction_history_toolbar" >
+        <action
+            android:id="@+id/action_transactionAccountFragment_to_transactionAccountInfo"
+            app:destination="@id/transactionAccountInfo" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/transactionAccountInfo"
+        android:name="com.cba.transactionaccount.ui.TransactionAccountInfo"
+        android:label="@string/transaction_info" />
 
 </navigation>
