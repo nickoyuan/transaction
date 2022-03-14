@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.cba.transactionaccount.databinding.TransactionAccountInfoFragmentBinding
+import com.cba.transactionaccount.model.Category
 import com.cba.transactionaccount.util.dateToString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,8 +29,9 @@ class TransactionAccountInfo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //binding.accountCategoryIcon.setImageDrawable()
-//        binding.accountCategoryDesc
+        val category =  Category.values().find { it.name == args.transactionInfoArgs.category } ?: Category.uncategorised
+        binding.accountCategoryIcon.setImageResource(category.getValue())
+        binding.accountCategoryDesc.text = args.transactionInfoArgs.category
         binding.accountAmount.text = args.transactionInfoArgs.amount
         binding.accountDescription.text = args.transactionInfoArgs.description
         binding.accountTime.text = args.transactionInfoArgs.effectiveDate.dateToString()
