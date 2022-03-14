@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Complete Access</string>
+    <string name="app_name">Commonwealth Bank</string>
     <string name="transaction_history_toolbar">Complete Access</string>
     <string name="transaction_info">Transaction info</string>
     <string name="account_title">Available</string>

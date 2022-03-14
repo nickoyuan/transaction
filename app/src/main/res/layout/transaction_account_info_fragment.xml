@@ -17,10 +17,9 @@
             android:id="@+id/fragment_transaction_info_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:title="@string/app_name"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:titleTextAppearance="@style/cba.toolbarTitle"
-            />
+            app:title="@string/transaction_history_toolbar"
+            app:titleTextAppearance="@style/cba.toolbarTitle" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -62,6 +61,7 @@
         android:layout_marginTop="20dp"
         android:paddingStart="50dp"
         android:paddingEnd="50dp"
+        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_amount"
