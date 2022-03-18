@@ -9,61 +9,62 @@ import com.cba.transactionaccount.network.TransactionAccountRepo
 import com.cba.transactionaccount.ui.TransactionAccountViewModel
 import com.cba.transactionaccount.ui.TransactionViewEvent
 import com.cba.transactionaccount.ui.TransactionViewState
-import com.cba.transactionaccount.util.TestCoroutineRule
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
-import org.junit.runner.RunWith
 import org.mockito.ArgumentCaptor
-import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.junit.MockitoJUnitRunner
 
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 class TransactionViewModelTest {
-
     @get:Rule
-    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
+    val rule = InstantTaskExecutorRule()
+    private val testDispatcher = StandardTestDispatcher()
 
-    @get:Rule
-    val testCoroutineRule = TestCoroutineRule()
-
-    @Mock
-    lateinit var transactionRepository: TransactionAccountRepo
+    val transactionRepository: TransactionAccountRepo = mock()
+    val viewModelObserver: Observer<TransactionViewState> = mock()
 
     lateinit var viewModel: TransactionAccountViewModel
 
-    @Mock
-    private lateinit var viewModelObserver: Observer<TransactionViewState>
-
     @Before
     fun setUp() {
+        Dispatchers.setMain(testDispatcher)
         viewModel = TransactionAccountViewModel(transactionRepository)
         viewModel.uiState.observeForever(viewModelObserver)
     }
 
     @After
     fun tearDown() {
+        Dispatchers.resetMain()
         viewModel.uiState.removeObserver(viewModelObserver)
     }
 
     @Test
     fun `should return transaction data when fetching transaction history`() {
-        testCoroutineRule.runBlockingTest {
-            `when`(transactionRepository.getTransactionData()).thenReturn(mockTransactionData)
+        runTest {
+            whenever(transactionRepository.getTransactionData()).thenReturn(mockTransactionData)
 
-            viewModel.emitEvent(TransactionViewEvent.EventFetch)
-
-            verify(transactionRepository).getTransactionData()
+            async {
+                viewModel.emitEvent(TransactionViewEvent.EventFetch)
+            }.await()
 
             val argumentCaptor = ArgumentCaptor.forClass(TransactionViewState::class.java)
+
+            verify(transactionRepository).getTransactionData()
 
             argumentCaptor.run {
                 verify(viewModelObserver, times(4)).onChanged(capture())
