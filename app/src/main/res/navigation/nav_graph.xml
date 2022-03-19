@@ -22,6 +22,12 @@
         <argument
             android:name="transactionInfoArgs"
             app:argType="com.cba.transactionaccount.model.TransactionHistory" />
+
+        <argument
+            android:name="transactionInfoToolbarTitle"
+            app:argType="string"
+            android:defaultValue=""/>
+
     </fragment>
 
 </navigation>

@@ -42,6 +42,7 @@ class TransactionAccountFragment : Fragment() {
             when (it) {
                 is TransactionViewState.Successful -> {
                     hideLoadingScreen()
+                    binding.fragmentTransactionListToolbar.title = it.account.accountName
                     populateAccount(it.account)
                     submitTransactionHistory(it.data)
                 }
@@ -93,7 +94,8 @@ class TransactionAccountFragment : Fragment() {
     private fun transactionHistoryItemClickListener(transactionHistory: TransactionHistory) {
         val directions =
             TransactionAccountFragmentDirections.actionTransactionAccountFragmentToTransactionAccountInfo(
-                transactionHistory
+                transactionInfoArgs = transactionHistory,
+                transactionInfoToolbarTitle = binding.fragmentTransactionListToolbar.title.toString()
             )
         findNavController().navigate(directions)
     }

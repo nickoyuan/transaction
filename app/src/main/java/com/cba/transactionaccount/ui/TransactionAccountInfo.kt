@@ -48,6 +48,7 @@ class TransactionAccountInfo : Fragment(), TextToSpeech.OnInitListener {
             binding.accountDescription.text = args.transactionInfoArgs.description.toHtml()
         }
         binding.accountTime.text = args.transactionInfoArgs.effectiveDate.dateToString()
+        binding.fragmentTransactionInfoToolbar.title = args.transactionInfoToolbarTitle
 
         binding.fragmentTransactionInfoToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
