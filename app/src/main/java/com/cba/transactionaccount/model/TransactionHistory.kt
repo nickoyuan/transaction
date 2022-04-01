@@ -14,5 +14,7 @@ data class TransactionHistory(
     @SerializedName("category")
     val category: String,
     @SerializedName("effectiveDate")
-    val effectiveDate: LocalDate
+    val effectiveDate: LocalDate,
+    @SerializedName("id")
+    val id : String
 ) : Serializable

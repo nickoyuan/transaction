@@ -2,26 +2,32 @@ package com.cba.transactionaccount.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cba.transactionaccount.databinding.TransactionListDateHeaderItemBinding
 import com.cba.transactionaccount.databinding.TransactionListViewItemBinding
 import com.cba.transactionaccount.model.AdapterData
 import com.cba.transactionaccount.model.TransactionHistory
-import org.joda.time.LocalDate
 
 class TransactionAccountCustomAdapter(
     private val onClickListener: (transactionHistory : TransactionHistory) -> Unit
-) : ListAdapter<AdapterData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<AdapterData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val TYPE_DATE_HEADER = 0
         private val TYPE_ITEM = 1
 
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AdapterData>() {
-            override fun areItemsTheSame(oldItem: AdapterData, newItem: AdapterData): Boolean =
-                oldItem == newItem
+            override fun areItemsTheSame(oldItem: AdapterData, newItem: AdapterData): Boolean {
+                val sameHistoryData = oldItem is AdapterData.data
+                        && newItem is AdapterData.data
+                         && oldItem.data.id == newItem.data.id
 
+                val sameDateHeader =  oldItem is AdapterData.SeparatorItem  && newItem is AdapterData.SeparatorItem
+                        && oldItem == newItem
+
+                return sameHistoryData || sameDateHeader
+            }
             override fun areContentsTheSame(oldItem: AdapterData, newItem: AdapterData): Boolean =
                 oldItem == newItem
         }
@@ -44,50 +50,27 @@ class TransactionAccountCustomAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return getItem(position).type
+        return when(getItem(position)) {
+            is AdapterData.data -> TYPE_ITEM
+            is AdapterData.SeparatorItem -> TYPE_DATE_HEADER
+            else -> throw UnsupportedOperationException("Unknown view")
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             TYPE_DATE_HEADER -> {
-                (holder as TransactionAccountDateHeaderViewHolder).setHeaderText(getItem(position).data as LocalDate)
+                (holder as TransactionAccountDateHeaderViewHolder).setHeaderText(getItem(position) as AdapterData.SeparatorItem)
             }
             TYPE_ITEM -> {
-                (holder as TransactionAccountItemViewHolder).setTransactionData(getItem(position).data as TransactionHistory)
-                holder.setOnClickListener(onClickListener, getItem(position).data as TransactionHistory)
+                val transactionHistory = getItem(position) as AdapterData.data
+                (holder as TransactionAccountItemViewHolder).setTransactionData(transactionHistory.data)
+                holder.setOnClickListener(onClickListener, transactionHistory.data)
             }
             else -> {
-               // Show placeholder view and hide original view
+                //holder.bindPlaceholder()
             }
         }
     }
-
-    override fun getItemCount() = currentList.size
-
-    fun setAdapterData(item : List<TransactionHistory>) {
-         submitList(groupData(item))
-    }
-
-    private fun groupData(item: List<TransactionHistory>): ArrayList<AdapterData> {
-        val list = ArrayList<AdapterData>()
-        val nonPending = ArrayList<AdapterData>()
-        item.forEach {
-            if (!list.contains(AdapterData(it.effectiveDate, TYPE_DATE_HEADER))) {
-                list.addAll(nonPending)
-                list.add(AdapterData(it.effectiveDate, TYPE_DATE_HEADER))
-                nonPending.clear()
-            }
-            if(it.isPending) {
-                list.add(AdapterData(it, TYPE_ITEM))
-            } else {
-                nonPending.add(AdapterData(it, TYPE_ITEM))
-            }
-        }
-        if(nonPending.isNotEmpty()) {
-            list.addAll(nonPending)
-        }
-        return list
-    }
-
 
 }

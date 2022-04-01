@@ -79,6 +79,12 @@ dependencies {
     //  Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:2.4.1")
 
+    // Pager 3
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
+
+    // alternatively - without Android dependencies for tests
+    testImplementation("androidx.paging:paging-common-ktx:3.1.1")
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:3.11.1"
     testImplementation "org.mockito:mockito-inline:3.11.2"

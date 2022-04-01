@@ -1,14 +1,13 @@
 package com.cba.transactionaccount.ui
 
 import androidx.lifecycle.viewModelScope
-import com.cba.transactionaccount.model.AccountData
-import com.cba.transactionaccount.model.TransactionHistory
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.cba.transactionaccount.model.AdapterData
 import com.cba.transactionaccount.network.TransactionAccountRepo
 import com.cba.transactionaccount.ui.TransactionViewEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -26,7 +25,7 @@ class TransactionAccountViewModel @Inject constructor(private val transactionAcc
         return when (viewEvent) {
             is EventLoading -> TransactionViewState.Loading
             is EventFetch -> TransactionViewState.Fetch
-            is EventSuccess -> TransactionViewState.Successful(viewEvent.data, viewEvent.account)
+            is EventSuccess -> TransactionViewState.Successful(viewEvent.data)
             else -> oldState
         }
     }
@@ -46,8 +45,9 @@ class TransactionAccountViewModel @Inject constructor(private val transactionAcc
         viewModelScope.launch {
                 emitEvent(EventLoading)
                 try {
-                    val transaction = transactionAccountRepo.getTransactionData()
-                    emitEvent(EventSuccess(transaction.transactions, transaction.account))
+                    transactionAccountRepo.getTransactionData().cachedIn(viewModelScope).collect {
+                        emitEvent(EventSuccess(it))
+                    }
                 } catch (e: Exception) {
                     emitEvent(EventError(e.message))
                 }
@@ -59,13 +59,13 @@ sealed class TransactionViewEvent {
     object EventLoading : TransactionViewEvent()
     object EventFetch : TransactionViewEvent()
     class EventError(val errorMessage: String?) : TransactionViewEvent()
-    class EventSuccess(val data: List<TransactionHistory>, val account : AccountData) : TransactionViewEvent()
+    class EventSuccess(val data: PagingData<AdapterData>) : TransactionViewEvent()
 }
 
 sealed class TransactionViewState {
     object Empty : TransactionViewState()
     object Loading : TransactionViewState()
     object Fetch : TransactionViewState()
-    class Successful(val data: List<TransactionHistory>, val account : AccountData) : TransactionViewState()
+    class Successful(val data: PagingData<AdapterData>) : TransactionViewState()
     class Error(val message: String) : TransactionViewState()
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.cba.transactionaccount.model.AccountData
 import com.cba.transactionaccount.model.TransactionHistory
 import com.cba.transactionaccount.util.toCurrencyString
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -42,9 +44,17 @@ class TransactionAccountFragment : Fragment() {
             when (it) {
                 is TransactionViewState.Successful -> {
                     hideLoadingScreen()
-                    binding.fragmentTransactionListToolbar.title = it.account.accountName
-                    populateAccount(it.account)
-                    submitTransactionHistory(it.data)
+                    binding.fragmentTransactionListToolbar.title = "test"
+                    populateAccount(AccountData(
+                        bsb = "123124",
+                        accountNumber = "123123",
+                        balance = "12",
+                        available = "123123",
+                        accountName = "12"
+                    ))
+                    lifecycleScope.launch {
+                        transactionAccountAdapter.submitData(it.data)
+                    }
                 }
                 is TransactionViewState.Loading -> {
                     showLoadingScreen()
@@ -76,10 +86,6 @@ class TransactionAccountFragment : Fragment() {
             R.string.balance,
             account.balance.toCurrencyString()
         )
-    }
-
-    private fun submitTransactionHistory(accountHistory: List<TransactionHistory>) {
-        transactionAccountAdapter.setAdapterData(accountHistory)
     }
 
     private fun setUpTransactionAccountAdapter(transactionAccountRecyclerView: RecyclerView) {
