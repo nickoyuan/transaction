@@ -1,4 +1,4 @@
-package com.cba.transactionaccount.network
+package com.cba.transactionaccount.data
 
 sealed class TransactionAccountException : Throwable() {
     object TransactionServerDown: TransactionAccountException()

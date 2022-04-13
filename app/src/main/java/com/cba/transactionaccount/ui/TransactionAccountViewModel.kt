@@ -1,10 +1,11 @@
 package com.cba.transactionaccount.ui
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.cba.transactionaccount.domain.GetTransactionListWithSortedDateUseCase
 import com.cba.transactionaccount.model.AdapterData
-import com.cba.transactionaccount.network.TransactionAccountRepo
 import com.cba.transactionaccount.ui.TransactionViewEvent.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,7 +13,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class TransactionAccountViewModel @Inject constructor(private val transactionAccountRepo: TransactionAccountRepo) :
+@ExperimentalPagingApi
+class TransactionAccountViewModel
+@Inject constructor(
+    private val getTransactionListWithSortedDateUseCase: GetTransactionListWithSortedDateUseCase
+) :
     ViewModelUDF<TransactionViewState, TransactionViewEvent>() {
 
     override val initialState: TransactionViewState
@@ -43,14 +48,14 @@ class TransactionAccountViewModel @Inject constructor(private val transactionAcc
 
     private fun loadTransactions() {
         viewModelScope.launch {
-                emitEvent(EventLoading)
-                try {
-                    transactionAccountRepo.getTransactionData().cachedIn(viewModelScope).collect {
-                        emitEvent(EventSuccess(it))
-                    }
-                } catch (e: Exception) {
-                    emitEvent(EventError(e.message))
+            emitEvent(EventLoading)
+            try {
+                getTransactionListWithSortedDateUseCase().cachedIn(this).collect {
+                    emitEvent(EventSuccess(it))
                 }
+            } catch (e: Exception) {
+                emitEvent(EventError(e.message))
+            }
         }
     }
 }

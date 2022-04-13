@@ -1,6 +1,6 @@
 package com.cba.transactionaccount.di
 
-import com.cba.transactionaccount.network.TransactionAccountProvider
+import com.cba.transactionaccount.data.TransactionAccountProvider
 import com.cba.transactionaccount.util.LocalDateAdapter
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -20,7 +20,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideApiProvider(retrofit: Retrofit): TransactionAccountProvider = retrofit.create(TransactionAccountProvider::class.java)
+    fun provideApiProvider(retrofit: Retrofit): TransactionAccountProvider = retrofit.createProvider()
 
     @Singleton
     @Provides
@@ -28,7 +28,6 @@ class NetworkModule {
         val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateAdapter()).create()
         return GsonConverterFactory.create(gson)
     }
-
 
     @Singleton
     @Provides
@@ -38,4 +37,6 @@ class NetworkModule {
         .addConverterFactory(gsonConverterFactory)
         .baseUrl(BASE_URL)
         .build()
+
+    private inline fun <reified Interface> Retrofit.createProvider(): Interface = create(Interface::class.java)
 }

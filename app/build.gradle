@@ -85,6 +85,15 @@ dependencies {
     // alternatively - without Android dependencies for tests
     testImplementation("androidx.paging:paging-common-ktx:3.1.1")
 
+    // Room
+    implementation("androidx.room:room-runtime:2.4.2")
+    kapt "androidx.room:room-compiler:2.4.2"
+
+    implementation("androidx.room:room-ktx:2.4.2")
+    implementation("androidx.room:room-paging:2.5.0-alpha01")
+
+
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:3.11.1"
     testImplementation "org.mockito:mockito-inline:3.11.2"

@@ -2,31 +2,21 @@ package com.cba.transactionaccount
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.cba.transactionaccount.model.AccountData
-import com.cba.transactionaccount.model.TransactionData
 import com.cba.transactionaccount.model.TransactionHistory
-import com.cba.transactionaccount.network.TransactionAccountRepo
+import com.cba.transactionaccount.data.TransactionAccountRepo
 import com.cba.transactionaccount.ui.TransactionAccountViewModel
-import com.cba.transactionaccount.ui.TransactionViewEvent
 import com.cba.transactionaccount.ui.TransactionViewState
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.joda.time.LocalDate
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentCaptor
 
 
 @ExperimentalCoroutinesApi

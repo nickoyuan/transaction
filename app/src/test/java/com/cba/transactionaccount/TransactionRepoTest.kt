@@ -1,19 +1,14 @@
 package com.cba.transactionaccount
 
-import com.cba.transactionaccount.network.TransactionAccountProvider
-import com.cba.transactionaccount.network.TransactionAccountRepo
-import com.cba.transactionaccount.util.TestConstants.Companion.mockTransactionData
+import com.cba.transactionaccount.data.TransactionAccountProvider
+import com.cba.transactionaccount.data.TransactionAccountRepo
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock

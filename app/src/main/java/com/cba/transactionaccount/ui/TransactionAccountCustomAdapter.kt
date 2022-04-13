@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.cba.transactionaccount.databinding.ShimmerPlaceholderLayoutBinding
 import com.cba.transactionaccount.databinding.TransactionListDateHeaderItemBinding
 import com.cba.transactionaccount.databinding.TransactionListViewItemBinding
 import com.cba.transactionaccount.model.AdapterData
@@ -16,6 +17,7 @@ class TransactionAccountCustomAdapter(
     companion object {
         private val TYPE_DATE_HEADER = 0
         private val TYPE_ITEM = 1
+        private val TYPE_PLACEHOLDER = 2
 
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AdapterData>() {
             override fun areItemsTheSame(oldItem: AdapterData, newItem: AdapterData): Boolean {
@@ -44,7 +46,8 @@ class TransactionAccountCustomAdapter(
                 TransactionAccountItemViewHolder(binding)
             }
             else -> {
-                throw IllegalArgumentException("View Holder Type Unknown")
+               val binding = ShimmerPlaceholderLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                PlaceHolderAdapter(binding)
             }
         }
     }
@@ -53,7 +56,7 @@ class TransactionAccountCustomAdapter(
         return when(getItem(position)) {
             is AdapterData.data -> TYPE_ITEM
             is AdapterData.SeparatorItem -> TYPE_DATE_HEADER
-            else -> throw UnsupportedOperationException("Unknown view")
+            else -> TYPE_PLACEHOLDER
         }
     }
 
