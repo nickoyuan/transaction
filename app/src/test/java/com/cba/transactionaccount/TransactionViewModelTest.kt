@@ -49,17 +49,16 @@ class TransactionViewModelTest {
     }
 
 
-
-    fun filteredTransaction(list : List<TransactionHistory>): Map<LocalDate, List<TransactionHistory>> {
+    fun filteredTransaction(list: List<TransactionHistory>): Map<LocalDate, List<TransactionHistory>> {
         return list.sortedBy {
-                it.effectiveDate
-            }.groupBy {
-                it.effectiveDate
-            }.mapValues {
-                it.value.sortedWith(
-                    compareBy { it.isPending == false }
-                )
-            }
+            it.effectiveDate
+        }.groupBy {
+            it.effectiveDate
+        }.mapValues {
+            it.value.sortedWith(
+                compareBy { it.isPending == false }
+            )
+        }
     }
 
 //    @Test
@@ -117,5 +116,6 @@ class TransactionViewModelTest {
 //        )
 //
 //    }
+
 
 }

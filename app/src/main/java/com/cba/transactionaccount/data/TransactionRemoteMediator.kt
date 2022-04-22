@@ -95,7 +95,6 @@ class TransactionRemoteMediator(
         }
     }
 
-
     private suspend fun getRemoteKeyForFirstItem(
         state: PagingState<Int, TransactionEntity>
     ): TransactionRemoteKeysEntity? {
